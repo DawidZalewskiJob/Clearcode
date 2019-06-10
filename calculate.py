@@ -68,5 +68,3 @@ def calculate(usb_size,memes):  #rozwiazanie dynamiczne
         najlepsza_kolejnosc_memow_nazwy.add(memes[i][0])
 
     return(najlepszy_wynik,najlepsza_kolejnosc_memow_nazwy)
-
-
