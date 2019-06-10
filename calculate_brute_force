@@ -1,0 +1,36 @@
+from itertools import combinations
+
+def calculate(usb_size, memes): #przeglad zupelny rozwiazania
+
+# ---------------------------INICJALIZACJA----------------------------
+    usb_size_mb = usb_size * 1024
+    ilosc_memow = len(memes)
+    lista_memow = (list(range(0,ilosc_memow)))
+    najlepsza_cena = 0
+    najlepsza_kolejnosc_memow_lista = []
+    najlepsza_kolejnosc_memow_nazwy = set()
+
+# ---------------------------ALGORYTM----------------------------
+    for i in range (1,ilosc_memow+1):   #Tworzenie kombinacji bez powtorzen z i zbioru wszystkich memow
+        kombinacje = combinations(lista_memow, i)
+
+        for j in list(kombinacje):  #Kombinacja posiada j poszczegolnych list memow
+            waga = 0
+            cena = 0
+            kolejnosc_memow = []
+
+            for k in list(j):   #Sprawdzanie poszczególnych k elementów z j list memow
+                kolejnosc_memow.append(k)
+                waga = memes[k][1] + waga
+                if waga <= usb_size_mb:     #sprawdzenie czy zadana sekwencja memow miesci sie na pendrivie
+                    cena = memes[k][2] + cena
+
+                    if najlepsza_cena < cena:   #zapamiętywanie najlepszej ceny i kolejnosci
+                        najlepsza_cena = cena
+                        najlepsza_kolejnosc_memow_lista = kolejnosc_memow[::]
+
+    print(najlepsza_kolejnosc_memow_lista)
+    for i in najlepsza_kolejnosc_memow_lista:   #dodawanie do setu nazw memow
+        najlepsza_kolejnosc_memow_nazwy.add(memes[i][0])
+
+    return(najlepsza_cena,najlepsza_kolejnosc_memow_nazwy)
