@@ -1,61 +1,63 @@
-def sortowanie(lista_memow,wagi_memow,ceny_memow,wielkosc_mb_memow):    #sortowanie babelkowe
-    for i in range(0,len(lista_memow)):
-        j=len(lista_memow)-1
-        while j>i:  #sortowanie od najbardziej oplacalnego do najmniej wagi(cena/wielkosc)
-            if wagi_memow[j] > wagi_memow[j-1]:
-                tmp1 = wagi_memow[j]
-                wagi_memow[j] = wagi_memow[j-1]
-                wagi_memow[j-1] = tmp1
+def sort(meme_list_numbers,values_per_unit,memes_value,memes_weight):    #bubble sorting
 
-                #jednoczesnie sortujac wage synchronizuje kazdy przeniesiony
-                #element wzgledem pozostalych parametrow (element z listy, cena, wielkosc)
+# ---------------------------SORTING----------------------------
 
-                tmp2 = lista_memow[j]
-                lista_memow[j] = lista_memow[j-1]
-                lista_memow[j-1] = tmp2
+    for i in range(0,len(meme_list_numbers)):
+        j=len(meme_list_numbers)-1
+        while j>i:  #Sorting from the largest to the smallest
+            if values_per_unit[j] > values_per_unit[j-1]:
+                tmp1 = values_per_unit[j]
+                values_per_unit[j] = values_per_unit[j-1]
+                values_per_unit[j-1] = tmp1
 
-                tmp3 = ceny_memow[j]
-                ceny_memow[j] = ceny_memow[j-1]
-                ceny_memow[j-1] = tmp3
+                #While sorting the values per unit it synchronizes
+                #rest of the elements (value,weight,list)
 
-                tmp4 = wielkosc_mb_memow[j]
-                wielkosc_mb_memow[j] = wielkosc_mb_memow[j - 1]
-                wielkosc_mb_memow[j - 1] = tmp4
+                tmp2 = meme_list_numbers[j]
+                meme_list_numbers[j] = meme_list_numbers[j-1]
+                meme_list_numbers[j-1] = tmp2
+
+                tmp3 = memes_value[j]
+                memes_value[j] = memes_value[j-1]
+                memes_value[j-1] = tmp3
+
+                tmp4 = memes_weight[j]
+                memes_weight[j] = memes_weight[j - 1]
+                memes_weight[j - 1] = tmp4
             j-=1
-    return lista_memow,wagi_memow,ceny_memow,wielkosc_mb_memow
+    return meme_list_numbers,values_per_unit,memes_value,memes_weight
 
-def calculate(usb_size, memes): #algorytm zachlanny
+def calculate(usb_size, memes):  #greedy algorithm
 
-# ---------------------------INICJALIZACJA----------------------------
+# ---------------------------INITIALIZATION----------------------------
 
     usb_size_mb = usb_size * 1024
-    ilosc_memow = len(memes)
-    lista_memow = (list(range(0,ilosc_memow)))
-    wielkosc_mb_memow = []
-    wagi_memow = []
-    ceny_memow = []
-    blokada = 0
-    najlepsza_kolejnosc_memow_nazwy = set()
-    cena=0
+    number_of_memes = len(memes)
+    meme_list_numbers = (list(range(0,number_of_memes)))
+    memes_weight = []
+    values_per_unit = []
+    memes_value = []
+    best_memes_order_names = set()
+    value=0
 
-    for i in range(0, len(lista_memow)):
-        ceny_memow.append(memes[i][2])
-        wielkosc_mb_memow.append(memes[i][1])
-        wagi_memow.append(ceny_memow[i] / wielkosc_mb_memow[i])
+    for i in range(0, len(meme_list_numbers)):
+        memes_value.append(memes[i][2])
+        memes_weight.append(memes[i][1])
+        values_per_unit.append(memes_value[i] / memes_weight[i])
 
-    najmniejszy_mem = min(wielkosc_mb_memow)
+    least_mem_weight = min(memes_weight)
 
-# ---------------------------ALGORYTM----------------------------
+# ---------------------------ALGORITHM----------------------------
 
-    sortowanie(lista_memow,wagi_memow,ceny_memow,wielkosc_mb_memow)
+    sort(meme_list_numbers,values_per_unit,memes_value,memes_weight)
 
-    for i in range(0,ilosc_memow):  #wkladanie do listy rozwiazania memow i kolejno najwiekszej wadze
-        if ( (usb_size_mb - wielkosc_mb_memow[i]) >= 0 ) and blokada != 1:
-            usb_size_mb -= wielkosc_mb_memow[i]
-            cena += ceny_memow[i]
+    for i in range(0,number_of_memes):  #Inserting to the final best memes list in sequence best value per unit
+        if ( (usb_size_mb - memes_weight[i]) >= 0 ):
+            usb_size_mb -= memes_weight[i]
+            value += memes_value[i]
 
-            najlepsza_kolejnosc_memow_nazwy.add(memes[lista_memow[i]][0])
-            if usb_size_mb < najmniejszy_mem:   #jesli pozostala dostepna waga jest mniejsza niz najmniejszy mem to program nie pozwala wejsc do petli powyzej
-                blokada = 1
+            best_memes_order_names.add(memes[meme_list_numbers[i]][0])
+            if usb_size_mb < least_mem_weight:   #If the rest of weight is smaller then smallest memes return
+                return (value, best_memes_order_names)
 
-    return(cena,najlepsza_kolejnosc_memow_nazwy)
+    return(value,best_memes_order_names)
