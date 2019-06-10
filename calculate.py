@@ -1,70 +1,69 @@
-def calculate(usb_size,memes):  #rozwiazanie dynamiczne
+def calculate(usb_size,memes):  #Dynamic programming solution
 
-# ---------------------------INICJALIZACJA----------------------------
+# ---------------------------INITIALIZATION----------------------------
     usb_size_mb = usb_size * 1024
-    wartosci = []
-    waga = []
-    ilosc_memow = len(memes)
-    najlepsza_kolejnosc_memow_nazwy = set()
-    najlepsza_kolejnosc_memow_lista = []
-    dostepne_miejsce = usb_size_mb
+    values = []
+    weight = []
+    memes_amount = len(memes)
+    best_memes_order_names = set()
+    best_memes_order_list = []
+    avaible_weight = usb_size_mb
 
     for i in range(0,len(memes)):
-        wartosci.append(memes[i][2])
-        waga.append(memes[i][1])
+        values.append(memes[i][2])
+        weight.append(memes[i][1])
 
-    #tworzenie macierzy o dlugosci ilosci memow oraz szerokosci usb_size_mb
-    #w kazdym kroku usb_size_mb bedziemy przechowywac informacje o najwyzszym mozliwym
-    #koszcie zestawu memow
+    #Creating a matrix with the length of memes and the width of (0,usb_size_mb) to alocate memory of
+    #all previous steps
 
-    macierz = [[0 for i in range(usb_size_mb+1)] for i in range(ilosc_memow)]
+    #In each usb_size_mb step(step is 1) it store data about highest possible value of meme that can fit into.
 
-# ---------------------------ALGORYTM----------------------------
+    matrix = [[0 for i in range(usb_size_mb+1)] for i in range(memes_amount)]
 
-    for mem_bierzacy in range (ilosc_memow):
-        for waga_macierzy in range(usb_size_mb+1):
+# ---------------------------ALGORITHM----------------------------
 
-            # jesli mem bierzacy nie miesci sie w danej wagi macierzy to dana rubryka
-            # macierzy jest wypelniana waga starego mema w tej wadze macierzy (jest to juz znana komorka pamieci)
+    for current_mem in range (memes_amount):
+        for matrix_weight_step in range(usb_size_mb+1):
 
-            if waga[mem_bierzacy] > waga_macierzy:
-                macierz[mem_bierzacy][waga_macierzy] = macierz[mem_bierzacy-1][waga_macierzy]
+            #if current mem doesn't fit into given weight of matrix then given heading
+            #of matrix is replaced by old known memes weight (in that matrix weight step)
+
+            if weight[current_mem] > matrix_weight_step:
+                matrix[current_mem][matrix_weight_step] = matrix[current_mem-1][matrix_weight_step]
                 continue
+                
+            #if current mem does fit into given heading of matrix then
+            #choose higher value from: old meme value (in same step) OR
+            #current meme that fit into heading of matrix AND previous mem with decreased
+            #matrix weight step (as much as it took the place of the meme we put in)
 
-            #jezeli mem bierzacy miesci sie w danej wagi macierzy to
-            #wybieramy wartosc wieksza z: starego mema w tej wadze macierzy lub
-            #bierzacego mema ktory miesci sie do tej wagi macierzy oraz poprzedniego mema ale
-            #o pomniejszonej wadze macierzy (o tyle ile zajal miejsca ten mem ktorego wkladamy)
+            previous_value = matrix[current_mem-1][matrix_weight_step]
+            nowa_opcja = values[current_mem] + matrix[current_mem-1][matrix_weight_step - weight[current_mem]]
+            matrix[current_mem][matrix_weight_step] = max(previous_value,nowa_opcja)
 
-            poprzednia_wartosc = macierz[mem_bierzacy-1][waga_macierzy]
-            nowa_opcja = wartosci[mem_bierzacy] + macierz[mem_bierzacy-1][waga_macierzy - waga[mem_bierzacy]]
-            macierz[mem_bierzacy][waga_macierzy] = max(poprzednia_wartosc,nowa_opcja)
+    best_value = matrix[len(memes) - 1][usb_size_mb]
+    remaining_value = best_value
 
-    najlepszy_wynik = macierz[len(memes) - 1][usb_size_mb]
-    wynik = najlepszy_wynik
-
-    #dekodowanie powstalej macierzy aby dowiedziec sie jakie dokladnie memy
-    #zostaly wykorzystane aby uzyskac najlepszy_wynik
-    #dekodowanie bedzie sie odbywalo od gory do dolu macierzy
+    #decoding matrix to gain information about memes that was used to
+    #build best solution
 
     for i in range((len(memes)-1), 0, -1):
-        if wynik <= 0:
+        if remaining_value <= 0:
             break
 
-        #jezeli bierzacy wynik nie jest rowny wartosci z brzegu macierzy o wysokosci i
-        #to znaczy ze ten mem byl w zestawie najlepszych memow, nastepnie koryguje
-        #wynik o wartosci mema ktory wpisalem, i dostepne miejsce
+        #if remaining value is not equal value from the right edge of matrix with height i
+        #then it means current i memes was in the list of best value memes, then
+        #correct remaing_value by subtracking used meme weight
 
-        if wynik == macierz[i - 1][dostepne_miejsce]:
+        if remaining_value == matrix[i - 1][avaible_weight]:
             continue
         else:
-            najlepsza_kolejnosc_memow_lista.append(i)
-            wynik = wynik - wartosci[i]
-            dostepne_miejsce = dostepne_miejsce - waga[i]
+            best_memes_order_list.append(i)
+            remaining_value = remaining_value - values[i]
+            avaible_weight = avaible_weight - weight[i]
 
 
+    for i in best_memes_order_list:   #adding to set names of memes
+        best_memes_order_names.add(memes[i][0])
 
-    for i in najlepsza_kolejnosc_memow_lista:   #dodawanie do setu nazw memow
-        najlepsza_kolejnosc_memow_nazwy.add(memes[i][0])
-
-    return(najlepszy_wynik,najlepsza_kolejnosc_memow_nazwy)
+    return(best_value,best_memes_order_names)
