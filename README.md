@@ -2,14 +2,14 @@
                           MISSION CODENAME: 
 
 
-              ,,  ,,                                                      
-`7MMF'        db *MM                                  mm                  
-  MM              MM                                  MM                  
-  MM        `7MM  MM,dMMb.   .gP"Ya `7Mb,od8 .gP"Ya mmMMmm ,pW"Wq.`7Mb,od8
-  MM          MM  MM    `Mb ,M'   Yb  MM' "',M'   Yb  MM  6W'   `Wb MM' "'
-  MM      ,   MM  MM     M8 8M""""""  MM    8M""""""  MM  8M     M8 MM    
-  MM     ,M   MM  MM.   ,M9 YM.    ,  MM    YM.    ,  MM  YA.   ,A9 MM    
-.JMMmmmmMMM .JMML.P^YbmdP'   `Mbmmd'.JMML.   `Mbmmd'  `Mbmo`Ybmd9'.JMML.  
+ _      ____  ____     ___  ____     ___  ______   ___   ____  
+| T    l    j|    \   /  _]|    \   /  _]|      T /   \ |    \ 
+| |     |  T |  o  ) /  [_ |  D  ) /  [_ |      |Y     Y|  D  )
+| l___  |  | |     TY    _]|    / Y    _]l_j  l_j|  O  ||    / 
+|     T |  | |  O  ||   [_ |    \ |   [_   |  |  |     ||    \ 
+|     | j  l |     ||     T|  .  Y|     T  |  |  l     !|  .  Y
+l_____j|____jl_____jl_____jl__j\_jl_____j  l__j   \___/ l__j\_j
+                                                               
                                                                                     
                                                                 
 
