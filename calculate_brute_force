@@ -1,36 +1,36 @@
-from itertools import combinations
+from itertools import combinations #standard library
 
-def calculate(usb_size, memes): #przeglad zupelny rozwiazania
+def calculate(usb_size, memes): #brute force method
 
-# ---------------------------INICJALIZACJA----------------------------
+# ---------------------------INITIALIZATION----------------------------
     usb_size_mb = usb_size * 1024
-    ilosc_memow = len(memes)
-    lista_memow = (list(range(0,ilosc_memow)))
-    najlepsza_cena = 0
-    najlepsza_kolejnosc_memow_lista = []
-    najlepsza_kolejnosc_memow_nazwy = set()
+    meme_amount = len(memes)
+    meme_list_numbers = (list(range(0,meme_amount)))
+    best_price = 0
+    best_meme_order_list = []
+    best_meme_order_names = set()
 
-# ---------------------------ALGORYTM----------------------------
-    for i in range (1,ilosc_memow+1):   #Tworzenie kombinacji bez powtorzen z i zbioru wszystkich memow
-        kombinacje = combinations(lista_memow, i)
+# ---------------------------ALGORITHM----------------------------
+    for i in range (1,meme_amount+1):   #creating combinations without repetition from i colection of all memes
+        combinationss = combinations(meme_list_numbers, i) #note that combinations is already key word, that why i use "combinationss"
 
-        for j in list(kombinacje):  #Kombinacja posiada j poszczegolnych list memow
-            waga = 0
-            cena = 0
-            kolejnosc_memow = []
+        for j in list(combinationss):  #The combinations has j invidual lists of memes
+            weight = 0
+            value = 0
+            meme_order = []
 
-            for k in list(j):   #Sprawdzanie poszczególnych k elementów z j list memow
-                kolejnosc_memow.append(k)
-                waga = memes[k][1] + waga
-                if waga <= usb_size_mb:     #sprawdzenie czy zadana sekwencja memow miesci sie na pendrivie
-                    cena = memes[k][2] + cena
+            for k in list(j):   #Checking invidual k elements from j  list of memes
+                meme_order.append(k)
+                weight = memes[k][1] + weight
+                if weight <= usb_size_mb:     #checking if the current sequence of memes fit on pendrive
+                    value = memes[k][2] + value
 
-                    if najlepsza_cena < cena:   #zapamiętywanie najlepszej ceny i kolejnosci
-                        najlepsza_cena = cena
-                        najlepsza_kolejnosc_memow_lista = kolejnosc_memow[::]
+                    if best_price < value:   #Saving best value and order
+                        best_price = value
+                        best_meme_order_list = meme_order[::]
 
-    print(najlepsza_kolejnosc_memow_lista)
-    for i in najlepsza_kolejnosc_memow_lista:   #dodawanie do setu nazw memow
-        najlepsza_kolejnosc_memow_nazwy.add(memes[i][0])
 
-    return(najlepsza_cena,najlepsza_kolejnosc_memow_nazwy)
+    for i in best_meme_order_list:   #adding to set names of memes
+        best_meme_order_names.add(memes[i][0])
+
+    return(best_price,best_meme_order_names)
