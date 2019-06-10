@@ -1,16 +1,6 @@
 # Clearcode
-                          MISSION CODENAME: LIBERATOR
-
-
-
- _      ____  ____     ___  ____     ___  ______   ___   ____  
-| T    l    j|    \   /  _]|    \   /  _]|      T /   \ |    \ 
-| |     |  T |  o  ) /  [_ |  D  ) /  [_ |      |Y     Y|  D  )
-| l___  |  | |     TY    _]|    / Y    _]l_j  l_j|  O  ||    / 
-|     T |  | |  O  ||   [_ |    \ |   [_   |  |  |     ||    \ 
-|     | j  l |     ||     T|  .  Y|     T  |  |  l     !|  .  Y
-l_____j|____jl_____jl_____jl__j\_jl_____j  l__j   \___/ l__j\_j
-                                                               
+                                                 MISSION CODENAME: LIBERATOR
+                                                          
 The request from xXxDankScavengerxXxx initially seemed simple to me, but after first tests for a larger pool of data it turned out that without expensive quantum computers there will be impossible to compute the best funny_cat_memes sets in live long time. Unfortunately, my client, even though he's a big smuggler, still can't afford to buy expensive quantum computer or even TraumaTeam™ package , so the possibility of detection by the cops wasn't an option. So I had to use some tricks to make my program run as fast as possible to avoid risk of getting busted.
 
 The task was selecting such a set of memes, that their profit was as high as possible. Actually the problem was limited to the backpack problem 1/0. That why I proposed three methods for its solution differing in computational complexity and quality of results. However the best approach to the problem you can find in file “calculate.py”.
