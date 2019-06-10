@@ -1,2 +1,14 @@
 # Clearcode
 Zadanie rekrutacyjne: zlecenie od xXxDankScavengerxXx
+
+Zlecenie od xXxDankScavengerxXx początkowo wydawało mi się proste, jednak po pierwszych testach dla większej ilości danych okazało się, że bez drogich komputerów kwantowych się nie obędzie. Niestety mój klient mimo, że jest szychą wśród szmuglujących memy to wciąż nie stać go na wykupienie drogiego pakietu TraumaTeam™ ani tymbardziej komputera kwantowego, a możliwość wykrycia przez gliny nie wchodziła w grę. Zatem musiałem skorzystać z sztuczek żeby mój program musiał działać najszybciej jak to tylko możliwe.
+
+Zadanie które polegało na dobraniu takiego setu memów, żeby ich zysk był jak największy sprowadzało się do problemu plecakowego 1/0. Zaproponowałem więc trzy metody na jego rozwiązanie różniącą się złożonością obliczeniową oraz jakością wyników z czego rekomendowaną przezemnie jest ten w pliku "calculate.py".
+
+Pierwszą metodą z pliku "calculate_brute_force" jest przegląd zupełny rozwiązań. Siłowo wykonujemy tutaj kombinację bez powtórzeń dla każdego możliwego wariantu, po czym zapamiętujemy tylko ten wariant ktory ma największy zysk. Jego plusem jest znalezienie setu najlepszego. Minusem bardzo duża złożoność obliczeniowa która dla rzędu dziesiątek jest poza możliwościami współczesnych komputerów.
+
+Drugą metodą z pliku "calculate_greedy" jest algorytm aproksymujący (zachłanny). Jest on prosty w działaniu: tworzymy wagi każdej pary koszt/wielkość mema w mb oraz sortując ustawiamy od największej do najmniejszej (ja wybrałem algorytm bąbelkowy). Plusem tego algorytmu jest niższa złożoność obliczeniowa uzależniona od algorytmu sortowania (w moim przypadku n^2). Minusem jest rozwiązanie nie idealne, a w porównaniu do trzeciej metody znacznie gorsze. Jako ciekawostkę mogę dodać, że ten algorytm byłby bardziej efektywny kiedy na pendrivie memy mogłby by się znaleść wielokrotnie. 
+
+Trzecią metodą z pliku "calculate" jest algorytm dynamiczny. Podstawą tego algorytmu jest stworzenie macierzy (tablicy) która będzie zawierała informację o mieszczących się memach w każdym kroku wagi = usb_size_mb. Wysokość tej tablicy to ilość memów a szerokość to ilość kroków od 0 do usb_size_mb (z wielkością kroku 1). Jeśli dany mem nie mieści się w danym kroku to wstawiamy tam stary mem który jest już wpisany w tablice pamięci. Jeśli mem się mieści to wybieramy wartość większą z starego mema, albo nowego z sprawdzeniem czy w pozostałej pamięci możemy zaalokować stary mem. Jego plusem jest niska złożoność obliczeniowa rzędu wielomianów. Minusem delikatnie trudniejsza metoda implementacji względem powyższych algorytmów.
+
+Podsumówując powyższe wady i zalety trzech metod wybrałem, że xXxDankScavengerxXx powinien wykorzystać program "calculate.py", charakteryzuje się on najniższym czasem obliczeń oraz bardzo dobrym zyskiem z danego setu memów.
